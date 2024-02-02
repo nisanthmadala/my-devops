@@ -1,5 +1,5 @@
 pipeline {
-    get any
+    
     stage{
 
     }
