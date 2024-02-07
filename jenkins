@@ -1,0 +1,71 @@
+pipeline {
+    agent any
+    
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Building...'
+                // Your build steps here
+            }
+        }
+        stage('dev') {
+            steps {
+                echo 'Testing...'
+                // Your test steps here
+            }
+        }
+        stage('Deploy to dev Environment') {
+            when {
+                branch 'develop'
+            }
+            steps {
+                echo 'Deploying to dev environment...'
+                // Your deployment steps for the test environment
+            }
+        }
+        stage('Test') {
+            steps {
+                echo 'Testing...'
+                // Your test steps here
+            }
+        }
+        stage('Deploy to Test Environment') {
+            when {
+                branch 'develop'
+            }
+            steps {
+                echo 'Deploying to test environment...'
+                // Your deployment steps for the test environment
+            }
+        }
+        stage('Deploy to Production Environment') {
+            when {
+                branch 'master'
+            }
+            steps {
+                echo 'Deploying to production environment...'
+                // Your deployment steps for the production environment
+            }
+        }
+        stage('Promote') {
+            when {
+                expression { currentBuild.result == 'SUCCESS' }
+            }
+            steps {
+                input "Promote to Production?"
+            }
+        }
+    }
+    
+    post {
+        success {
+            echo 'Build and test succeeded!'
+        }
+        failure {
+            echo 'Build or test failed!'
+        }
+        aborted {
+            echo 'Build was aborted!'
+        }
+    }
+}
