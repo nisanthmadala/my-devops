@@ -1,5 +1,9 @@
 pipeline{
     stages{
+    add nisanth
+    add.
+    commit "message"
+    push
         
     }
 }
